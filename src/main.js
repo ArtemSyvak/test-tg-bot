@@ -14,7 +14,7 @@ const requestPhoneKeyboard = {
                 request_contact: true,
                 callback_data: 'phone',
                 one_time_keyboard: true
-            }]            
+            }]
         ]
     }
 };
@@ -69,12 +69,12 @@ const createActions = (menuObj) => {
                     bot.on('contact', async msg => {
                         const { phone_number, first_name, last_name } = msg.message.contact
 
-                        let finalMesage = `*${first_name} ${last_name}* \n \`+${phone_number}\`\n`
+                        let finalMesage = `*${first_name ? first_name : ''} ${last_name ? last_name : ''}* \n \`${phone_number.includes('+') ? '' : '+'}${phone_number}\`\n`
                         actionHistory.forEach((history, index) => {
                             finalMesage += index === 0 ? `${history.data}:` : `\n • ${history.data}`
                         })
-                        await bot.telegram.sendMessage(channelId, finalMesage, {parse_mode: 'MarkdownV2'})
-                        actionHistory = []             
+                        await bot.telegram.sendMessage(channelId, finalMesage, { parse_mode: 'MarkdownV2' })
+                        actionHistory = []
                     })
                 })
             }
