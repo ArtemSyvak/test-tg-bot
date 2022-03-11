@@ -1,6 +1,6 @@
 const Telegraf = require('telegraf').Telegraf;
 
-const bot = new Telegraf('5150311858:AAH54TBkV_U_B6JHRRGBnt70-OOtQDEoxTM');
+const bot = new Telegraf(process.env.TG_BOT_TOKEN);
 const { botMenu } = require('./menu')
 
 const channelId = '@test_tg_help'
