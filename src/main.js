@@ -111,7 +111,7 @@ createActions(botMenu)
 
 // bot.launch();
 
-const secretPath = `/telegraf/${bot.secretPathComponent()}`
+const secretPath = `/${bot.secretPathComponent()}`
 
 bot.telegram.setWebhook(`${process.env.HEROKU_URL}${secretPath}`)
 
