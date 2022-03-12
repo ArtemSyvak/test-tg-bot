@@ -1,12 +1,15 @@
 const express = require('express')
 const Telegraf = require('telegraf').Telegraf;
 
-const token = process.env.TG_BOT_TOKEN
-if (token === undefined) {
+const BOT_TOKEN = process.env.BOT_TOKEN || '';
+const PORT = process.env.PORT || 3000;
+const URL = process.env.URL
+
+if (BOT_TOKEN === undefined) {
   throw new Error('BOT_TOKEN must be provided!')
 }
 
-const bot = new Telegraf(token);
+const bot = new Telegraf(BOT_TOKEN);
 
 const { botMenu } = require('./menu')
 
@@ -109,22 +112,7 @@ bot.action('back_menu', async ctx => {
 
 createActions(botMenu)
 
-// bot.launch();
+const secretPath = `/bot/${bot.secretPathComponent()}`
 
-const secretPath = `/${bot.secretPathComponent()}`
-
-bot.telegram.setWebhook(`${process.env.HEROKU_URL}${secretPath}`)
-
-const app = express()
-
-app.get('/', (req, res) => res.send('Hello World!'))
-
-// Set the bot API endpoint
-app.use(bot.webhookCallback(secretPath))
-
-app.listen(3000, () => {
-  console.log('Bot is running on port 3000!')
-})
-
-// process.once('SIGINT', () => bot.stop('SIGINT'))
-// process.once('SIGTERM', () => bot.stop('SIGTERM'))
+bot.telegram.setWebhook(`${URL + secretPath}`);
+bot.startWebhook(secretPath, null, PORT)
