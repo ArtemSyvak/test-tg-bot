@@ -238,7 +238,7 @@ const proceedAction = async (bot, ctx, menuObj, menuItem) => {
         await ctx.deleteMessage(ctx.update.callback_query.message.message_id)
         await bot.telegram.sendMessage(ctx.chat.id, 'Виберіть один з пунктів:', getCurrentLevelMenu(menuObj[menuItem].subMenu), {})
     } else {
-        bot.telegram.sendMessage(ctx.chat.id, 'Надати мій телефон', requestPhoneKeyboard, {}).then(() => {
+        bot.telegram.sendMessage(ctx.chat.id, 'Натисніть "Мій номер телефону", щоб надати доступ до вашого мобільного ⬇️', requestPhoneKeyboard, {}).then(() => {
             bot.on('contact', async msg => {
                 const { phone_number, first_name, last_name } = msg.message.contact
 
