@@ -340,15 +340,15 @@ createActions(BOT_MENU)
 
 
 // LOCAL LAUNCH
-bot.launch()
+// bot.launch()
 
 
-process.once('SIGINT', () => bot.stop('SIGINT'))
-process.once('SIGTERM', () => bot.stop('SIGTERM'))
+// process.once('SIGINT', () => bot.stop('SIGINT'))
+// process.once('SIGTERM', () => bot.stop('SIGTERM'))
 
 
 // WEBHOOK SETUP
-// const secretPath = `/bot/${bot.secretPathComponent()}`
+const secretPath = `/bot/${bot.secretPathComponent()}`
 
-// bot.telegram.setWebhook(`${URL + secretPath}`);
-// bot.startWebhook(secretPath, null, PORT)
+bot.telegram.setWebhook(`${URL + secretPath}`);
+bot.startWebhook(secretPath, null, PORT)
