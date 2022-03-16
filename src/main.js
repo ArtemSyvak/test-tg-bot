@@ -257,7 +257,7 @@ const proceedAction = async (bot, ctx, menuObj, menuItem) => {
                         "remove_keyboard": true
                     }
                 }, {})
-                await sendMainMenu(bot, ctx.chat.id)
+                await sendMainMenu(bot, msg.chat.id)
 
                 // clear action history
                 actionHistory = []
