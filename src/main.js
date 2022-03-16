@@ -252,7 +252,7 @@ const proceedAction = async (bot, ctx, menuObj, menuItem) => {
                 })
                                
                 await bot.telegram.sendMessage(CHANNEL_ID, finalMesage, { parse_mode: 'MarkdownV2' })
-                await bot.telegram.sendMessage(ctx.chat.id, 'Дякую, Ваше повідомлення збережено.\nНаші волонтери зв\'яжуться с Вами найближчим часом.\nСлава Україні!🇺🇦🇺🇦🇺🇦', {
+                await bot.telegram.sendMessage(msg.chat.id, 'Дякую, Ваше повідомлення збережено.\nНаші волонтери зв\'яжуться с Вами найближчим часом.\nСлава Україні!🇺🇦🇺🇦🇺🇦', {
                     "reply_markup": {
                         "remove_keyboard": true
                     }
@@ -298,7 +298,7 @@ bot.command('start', ctx => {
 })
 
 bot.command('getphones', async ctx => {
-    await bot.telegram.sendMessage(ctx.chat.id, `*Номера волонтерів*: \n\n${getPhones()}`, { parse_mode: 'MarkdownV2' })
+    await bot.telegram.sendMessage(ctx.chat.id, `*Номери волонтерів*: \n\n${getPhones()}`, { parse_mode: 'MarkdownV2' })
     await sendMainMenu(bot, ctx.chat.id)
 })
 
@@ -340,15 +340,15 @@ createActions(BOT_MENU)
 
 
 // LOCAL LAUNCH
-// bot.launch()
+bot.launch()
 
 
-// process.once('SIGINT', () => bot.stop('SIGINT'))
-// process.once('SIGTERM', () => bot.stop('SIGTERM'))
+process.once('SIGINT', () => bot.stop('SIGINT'))
+process.once('SIGTERM', () => bot.stop('SIGTERM'))
 
 
 // WEBHOOK SETUP
-const secretPath = `/bot/${bot.secretPathComponent()}`
+// const secretPath = `/bot/${bot.secretPathComponent()}`
 
-bot.telegram.setWebhook(`${URL + secretPath}`);
-bot.startWebhook(secretPath, null, PORT)
+// bot.telegram.setWebhook(`${URL + secretPath}`);
+// bot.startWebhook(secretPath, null, PORT)
