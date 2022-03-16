@@ -114,7 +114,7 @@ const getCurrentLevelMenu = (menuObj, includeBackMenu = true) => {
 
     if (includeBackMenu) {
         markup['reply_markup']['inline_keyboard'].push([{
-            text: 'Поперднє меню ⬅️',
+            text: 'Поперeднє меню ⬅️',
             callback_data: 'back_menu'
         }])
     }
