@@ -1,4 +1,105 @@
 
+
+const GET_HELP_SUBMENU = {
+    getAccommodation: {
+        label: 'Житло 🏡',
+        subMenu: {
+            getPaid: {
+                label: 'Платне 💵',
+                break: true,
+            },
+            getFree: {
+                label: 'Безоплатне 🆓',
+            }
+        }
+    },
+    getFood: {
+        label: 'Харчування 🍔',
+        subMenu: {
+            getFoodChildren: {
+                label: 'Дитяче 👶',
+            },
+            getFoodGeneral: {
+                label: 'Загальне 👫',
+            }
+        }
+    },
+    getClothes: {
+        label: 'Речі 👔',
+        subMenu: {
+            getClothesChildren: {
+                label: 'Дитяче 👶'
+            },
+            getClothesWomen: {
+                label: 'Жіночі 👩‍🦰'
+            },
+            getClothesMen: {
+                label: 'Чоловічі 👨‍🦰'
+            },
+            getAmmunition: {
+                label: 'Амуніція 🪖'
+            },
+            getClothesMilitary: {
+                label: 'Військове спорядження 🏹'
+            }
+        },
+    },
+    getMedicines: {
+        label: 'Медикаменти 💊',
+    }
+}
+
+const GIVE_HELP_SUBMENU = {
+    giveAccommodation: {
+        label: 'Житло 🏡',
+        subMenu: {
+            givePaid: {
+                label: 'Платне 💵'
+            },
+            giveFree: {
+                label: 'Безоплатне 🆓'
+            }
+        }
+    },
+    giveFood: {
+        label: 'Харчування 🍔',
+        subMenu: {
+            giveFoodChildren: {
+                label: 'Дитяче 👶'
+            },
+            giveFoodGeneral: {
+                label: 'Загальне 👫'
+            }
+        }
+    },
+    giveClothes: {
+        label: 'Речі 👔',
+        subMenu: {
+            giveClothesChildren: {
+                label: 'Дитячі 👶'
+            },
+            giveClothesWomen: {
+                label: 'Жіночі 👩‍🦰'
+            },
+            giveClothesMen: {
+                label: 'Чоловічі 👨‍🦰'
+            },
+            giveAmmunition: {
+                label: 'Амуніція 🪖'
+            },
+            giveClothesMilitary: {
+                label: 'Військове спорядження 🏹'
+            }
+        },
+    },
+    giveMedicines: {
+        label: 'Медикаменти 💊',
+    },
+    giveMoney: {
+        label: 'Грошовий переказ 💸',
+    }
+}
+
 const REGIONS_SUB_MENU = {
     regionDontHaveCar: {
         label: 'Немає транспорта 🐌'
@@ -26,108 +127,12 @@ const BOT_MENU = {
     getHelp: {
         label: 'Отримати допомогу 🙋‍♀️',
         channelId: '@test_tg_help',
-        subMenu: {
-            getAccommodation: {
-                label: 'Житло 🏡',
-                subMenu: {
-                    getPaid: {
-                        label: 'Платне 💵',
-                        break: true,
-                    },
-                    getFree: {
-                        label: 'Безоплатне 🆓',
-                    }
-                }
-            },
-            getFood: {
-                label: 'Харчування 🍔',
-                subMenu: {
-                    getFoodChildren: {
-                        label: 'Дитяче 👶',
-                    },
-                    getFoodGeneral: {
-                        label: 'Загальне 👫',
-                    }
-                }
-            },
-            getClothes: {
-                label: 'Речі 👔',
-                subMenu: {
-                    getClothesChildren: {
-                        label: 'Дитяче 👶'
-                    },
-                    getClothesWomen: {
-                        label: 'Жіночі 👩‍🦰'
-                    },
-                    getClothesMen: {
-                        label: 'Чоловічі 👨‍🦰'
-                    },
-                    getAmmunition: {
-                        label: 'Амуніція 🪖'
-                    },
-                    getClothesMilitary: {
-                        label: 'Військове спорядження 🏹'
-                    }
-                },
-            },
-            getMedicines: {
-                label: 'Медикаменти 💊',
-            }
-        }
+        subMenu: {...GET_HELP_SUBMENU}
     },
     giveHelp: {
         label: 'Пропоную допомогу 💁‍♀️',
         channelId: '@test_tg_help',
-        subMenu: {
-            giveAccommodation: {
-                label: 'Житло 🏡',
-                subMenu: {
-                    givePaid: {
-                        label: 'Платне 💵'
-                    },
-                    giveFree: {
-                        label: 'Безоплатне 🆓'
-                    }
-                }
-            },
-            giveFood: {
-                label: 'Харчування 🍔',
-                subMenu: {
-                    giveFoodChildren: {
-                        label: 'Дитяче 👶'
-                    },
-                    giveFoodGeneral: {
-                        label: 'Загальне 👫'
-                    }
-                }
-            },
-            giveClothes: {
-                label: 'Речі 👔',
-                subMenu: {
-                    giveClothesChildren: {
-                        label: 'Дитячі 👶'
-                    },
-                    giveClothesWomen: {
-                        label: 'Жіночі 👩‍🦰'
-                    },
-                    giveClothesMen: {
-                        label: 'Чоловічі 👨‍🦰'
-                    },
-                    giveAmmunition: {
-                        label: 'Амуніція 🪖'
-                    },
-                    giveClothesMilitary: {
-                        label: 'Військове спорядження 🏹'
-                    }
-                },
-            },
-            giveMedicines: {
-                label: 'Медикаменти 💊',
-            },
-            giveMoney: {
-                label: 'Грошовий переказ 💸',
-            }
-        }
+        subMenu: {...GIVE_HELP_SUBMENU}
     },
     volonteers: {
         label: 'Волонтери 👨‍👩‍👧‍👦',
@@ -273,6 +278,8 @@ const REGIONS_MATCH_REGEX = /Вінницька|Волинська|Дніпро�
 module.exports = {
     REGIONS_MATCH_REGEX,
     BOT_MENU,
+    GET_HELP_SUBMENU,
+    GIVE_HELP_SUBMENU,
     REGIONS_SUB_MENU,
     REGIONS,
     PHONES_BY_REGIONS

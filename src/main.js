@@ -1,5 +1,5 @@
 const Telegraf = require('telegraf').Telegraf;
-const { BOT_MENU, REGIONS, REGIONS_MATCH_REGEX, REGIONS_SUB_MENU, PHONES_BY_REGIONS} = require('./menu')
+const { BOT_MENU, REGIONS, REGIONS_MATCH_REGEX, REGIONS_SUB_MENU, PHONES_BY_REGIONS, GET_HELP_SUBMENU, GIVE_HELP_SUBMENU} = require('./menu')
 
 const BOT_TOKEN = process.env.BOT_TOKEN || '';
 const PORT = process.env.PORT || 3000;
@@ -45,7 +45,9 @@ const SPECIAL_MENU_CASES = {
     DRIVERS_BY_REGION: 'region',
     NEEDS_MEDICINE: 'needsMedicine',
     NEEDS_HUMANITARIAN_HELP: 'humanitarianHelp',
-    NEEDS_MILITARY: 'needsMilitary'
+    NEEDS_MILITARY: 'needsMilitary',
+    GET_HELP: 'getHelp',
+    GIVE_HELP: 'giveHelp'
 }
 
 if (BOT_TOKEN === undefined) {
@@ -56,6 +58,7 @@ const bot = new Telegraf(BOT_TOKEN);
 let CHANNEL_ID = ''
 
 let actionHistory = []
+const USER_DATA = {}
 
 const setChannelId = (action) => {
 
@@ -195,7 +198,9 @@ const createActions = (menuObj) => {
                     await bot.telegram.sendMessage(ctx.chat.id, generatePhoneNumbersByRegion(), {parse_mode: 'MarkdownV2'})
                     await sendMainMenu(bot, ctx.chat.id)
                     break;
-                case SPECIAL_MENU_CASES.DRIVERS_BY_REGION:  
+                case SPECIAL_MENU_CASES.DRIVERS_BY_REGION: 
+                case SPECIAL_MENU_CASES.GET_HELP: 
+                case SPECIAL_MENU_CASES.GIVE_HELP: 
                     actionHistory.push({
                         action: menuItem,
                         menu: menuObj,
@@ -238,7 +243,7 @@ const proceedAction = async (bot, ctx, menuObj, menuItem) => {
         await ctx.deleteMessage(ctx.update.callback_query.message.message_id)
         await bot.telegram.sendMessage(ctx.chat.id, 'Виберіть один з пунктів:', getCurrentLevelMenu(menuObj[menuItem].subMenu), {})
     } else {
-        bot.telegram.sendMessage(ctx.chat.id, 'Натисніть "Мій номер телефону", щоб надати доступ до вашого мобільного ⬇️', requestPhoneKeyboard, {}).then(() => {
+        bot.telegram.sendMessage(ctx.chat.id, 'Натисніть "Мій номер телефону", щоб надіслати Ваш мобільний. ⬇️', requestPhoneKeyboard, {}).then(() => {
             bot.on('contact', async msg => {
                 const { phone_number, first_name, last_name } = msg.message.contact
 
@@ -247,8 +252,14 @@ const proceedAction = async (bot, ctx, menuObj, menuItem) => {
 
                 let finalMesage = `*${firstName} ${lastName}* \n \`${phone_number.includes('+') ? '' : '+'}${phone_number}\`\n`
 
+                if(USER_DATA.region){
+                    finalMesage += `*Область:* ${USER_DATA.region}\n`
+                }
+                
                 actionHistory.forEach((history, index) => {
-                    finalMesage += index === 0 ? `${history.data}:` : `\n • ${history.data}`
+                    if(history.action !== SPECIAL_MENU_CASES.DRIVERS_BY_REGION){
+                        finalMesage += index === 0 ? `${history.data}:` : `\n • ${history.data}`
+                    }
                 })
                                
                 await bot.telegram.sendMessage(CHANNEL_ID, finalMesage, { parse_mode: 'MarkdownV2' })
@@ -320,6 +331,8 @@ bot.action('back_menu', async ctx => {
 
 bot.hears(REGIONS_MATCH_REGEX, async ctx => {
     const region = ctx.match.input
+    
+    USER_DATA.region = region;
 
     await bot.telegram.sendMessage(ctx.chat.id, 'Область збережено.', {
         "reply_markup": {
@@ -327,13 +340,25 @@ bot.hears(REGIONS_MATCH_REGEX, async ctx => {
         }
     }, {})
 
-    await bot.telegram.sendMessage(ctx.chat.id, 'Виберіть один з пунктів', getCurrentLevelMenu(REGIONS_SUB_MENU), {})
+    const lastAction = actionHistory[actionHistory.length - 1].action || ''
 
-    actionHistory.forEach(item => {
-        if(item.action === 'region'){
-            item.data += region
+    if(lastAction){
+        switch(lastAction){
+            case SPECIAL_MENU_CASES.DRIVERS_BY_REGION:                            
+                await bot.telegram.sendMessage(ctx.chat.id, 'Виберіть один з пунктів', getCurrentLevelMenu(REGIONS_SUB_MENU), {})
+                break
+            case SPECIAL_MENU_CASES.GET_HELP:
+                await bot.telegram.sendMessage(ctx.chat.id, 'Виберіть один з пунктів', getCurrentLevelMenu(GET_HELP_SUBMENU), {})
+                break
+            case SPECIAL_MENU_CASES.GIVE_HELP:
+                await bot.telegram.sendMessage(ctx.chat.id, 'Виберіть один з пунктів', getCurrentLevelMenu(GIVE_HELP_SUBMENU), {})
+                break
+            default:
+                await bot.telegram.sendMessage(ctx.chat.id, 'Cталася помилка, спробуйте спочатку', {})
+                await sendMainMenu(bot, ctx.chat.id)
+                break
         }
-    })
+    }    
 })
 
 createActions(BOT_MENU)

@@ -6,12 +6,15 @@
   "scripts": {
     "start": "node src/main.js",
     "dev": "env-cmd -f .env node src/main.js",
+    "local:dev": "env-cmd -f .env node src/local.js",
+    "google:dev": "env-cmd -f .env node src/services/googlesheet.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "google-spreadsheet": "^3.2.0",
     "telegraf": "^4.7.0"
   },
   "devDependencies": {
