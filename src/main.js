@@ -253,7 +253,7 @@ const proceedAction = async (bot, ctx, menuObj, menuItem) => {
                 let finalMesage = `*${firstName} ${lastName}* \n \`${phone_number.includes('+') ? '' : '+'}${phone_number}\`\n`
 
                 if(USER_DATA.region){
-                    finalMesage += `*Область:* ${USER_DATA.region}\n`
+                    finalMesage += `*Область:* ${USER_DATA.region.replace('-', '\\-')}\n`
                 }
                 
                 actionHistory.forEach((history, index) => {
